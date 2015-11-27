@@ -1,0 +1,19 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "djvu", "djvu.vcxproj", "{E5FE7F15-1867-4C1A-B92A-D92F224B11DE}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Win32 = Debug|Win32
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E5FE7F15-1867-4C1A-B92A-D92F224B11DE}.Debug|Win32.ActiveCfg = Debug|Win32
+		{E5FE7F15-1867-4C1A-B92A-D92F224B11DE}.Debug|Win32.Build.0 = Debug|Win32
+		{E5FE7F15-1867-4C1A-B92A-D92F224B11DE}.Release|Win32.ActiveCfg = Release|Win32
+		{E5FE7F15-1867-4C1A-B92A-D92F224B11DE}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
