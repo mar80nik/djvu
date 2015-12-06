@@ -101,6 +101,9 @@
     <Bscmake>
       <OutputFile>$(IntDir)$(TargetName).bsc</OutputFile>
     </Bscmake>
+    <PreBuildEvent>
+      <Command>perl $(SourceDir)Makefile.pl</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -148,6 +151,9 @@
     <Bscmake>
       <OutputFile>$(IntDir)$(TargetName).bsc</OutputFile>
     </Bscmake>
+    <PreBuildEvent>
+      <Command>perl $(SourceDir)Makefile.pl</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="src\djvu.cpp">
