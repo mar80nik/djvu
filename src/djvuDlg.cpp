@@ -19,12 +19,10 @@ _OutDirItem OutDirItem;
 _FormatItem FormatItem;
 _LayerItem LayerItem;
 //-----------------------
-UINT Function1(LPVOID pParam);
-UINT Collect_Function(LPVOID pParam);
+
 UINT Collect_Function2(LPVOID pParam);
 void CollectFiles(CString InputDir,CStringArray &Files);
-int SearchDirectories(CString,CStringArray&);
-int SearchFiles(CString InputDir,CStringArray &Files);
+
 
 CMutex DjvuBundleRunnning;
 
@@ -371,48 +369,7 @@ void CDjvuDlg::OnCollect()
 {		
 	UpdateData();
 	MAINAPP->m_pMainWnd->SetWindowText("Working"); 
-	MAINAPP->StopThread=AfxBeginThread(Collect_Function,NULL);
 	MAINAPP->SRDlg2.DoModal();
-}
-
-UINT Collect_Function(LPVOID pParam)
-{
-	CSingleLock Lock1(&(MAINAPP->StopMutex)); 
-	Lock1.Lock();
-	MAINAPP->StopThread=AfxBeginThread(Function1,NULL);	
-
-	CStringArray NewDirs,TempDirs, *Files; int i,dir,files;	
-	CString Path,T; 
-	
-	CDjvuDlg *parent=(CDjvuDlg *)(MAINAPP->m_pMainWnd);
-	SearchRsltDlg *dlg=(SearchRsltDlg *)(&(MAINAPP->SRDlg2));
-
-	MAINAPP->Directories.RemoveAll(); NewDirs.Add(parent->InputDir);
-	
-	for(i=0;i<NewDirs.GetSize();i++)
-	{
-		Path=NewDirs[i]; Files=new CStringArray();
-		files=SearchFiles(Path,*Files); 
-		if(files)
-		{
-			MAINAPP->Directories.Add(Path); MAINAPP->AllFiles.Add(Files);
-		}
-		else
-		{
-			delete Files;		
-		}
-		TempDirs.RemoveAll(); dir=SearchDirectories(Path,TempDirs); 	
-		for(int j=0;j<TempDirs.GetSize();j++) NewDirs.Add(TempDirs[j]);
-
-		T.Format("Searching at %s",Path); dlg->CollectInfo.AddString(T);	
-		if(files)
-		{T.Format("Found %d files",files); dlg->CollectInfo.AddString(T);}	
-		if(dir)
-		{T.Format("Found %d directories",dir); dlg->CollectInfo.AddString(T);}
-	}		
-	Lock1.Unlock();
-	dlg->Proceed.EnableWindow(); dlg->Cancel.EnableWindow();
-	return 0;
 }
 
 UINT Collect_Function2(LPVOID pParam)
@@ -439,54 +396,6 @@ void SearchRsltDlg::OnProced()
 	MAINAPP->StopThread=AfxBeginThread(Collect_Function2,NULL);	
 	Proceed.EnableWindow(false);
 }
-
-
-int SearchDirectories(CString InputDir,CStringArray &Directories)
-{
-	HANDLE SearchHandle; WIN32_FIND_DATA FindFileData;
-	CString T,SearchPattern=InputDir+"\\*";	
-	if( (SearchHandle=FindFirstFile(LPCSTR(SearchPattern),&FindFileData) )!=INVALID_HANDLE_VALUE)
-	{
-		
-		if(FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-		{			
-			T=FindFileData.cFileName; 
-			if(T!="." && T!="..") 
-				Directories.Add(InputDir+"\\"+T);
-		}
-		
-		while(FindNextFile(SearchHandle,&FindFileData))
-		{
-			if(FindFileData.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY)
-			{
-				T=FindFileData.cFileName; 
-				if(T!="." && T!="..") 
-					Directories.Add(InputDir+"\\"+T);
-			}
-		}
-		FindClose(SearchHandle);
-	}	
-	return Directories.GetSize();
-}
-
-int SearchFiles(CString InputDir,CStringArray &Files)
-{
-	CString T,SearchPattern=InputDir+"\\*.djvu"; HANDLE SearchHandle;
-	WIN32_FIND_DATA FindFileData;
-	if( (SearchHandle=FindFirstFile(LPCSTR(SearchPattern),&FindFileData) )!=INVALID_HANDLE_VALUE)
-	{
-		
-		T=FindFileData.cFileName; Files.Add(T);
-		
-		while(FindNextFile(SearchHandle,&FindFileData))
-		{
-			T=FindFileData.cFileName; Files.Add(T);			
-		}
-		FindClose(SearchHandle);
-	}	
-	return Files.GetSize();
-}
-
 
 void CollectFiles(CString InputDir,CStringArray &Files)
 {

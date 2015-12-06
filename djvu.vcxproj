@@ -188,12 +188,12 @@
     <ResourceCompile Include="djvu.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="djvu.h" />
-    <ClInclude Include="djvuDlg.h" />
-    <ClInclude Include="MyList.h" />
-    <ClInclude Include="MyListBox.h" />
     <ClInclude Include="Resource.h" />
-    <ClInclude Include="SearchRsltDlg.h" />
+    <ClInclude Include="src\djvu.h" />
+    <ClInclude Include="src\djvuDlg.h" />
+    <ClInclude Include="src\MyList.h" />
+    <ClInclude Include="src\MyListBox.h" />
+    <ClInclude Include="src\SearchRsltDlg.h" />
     <ClInclude Include="StdAfx.h" />
   </ItemGroup>
   <ItemGroup>

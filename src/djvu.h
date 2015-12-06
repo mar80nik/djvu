@@ -20,6 +20,9 @@
 #define MAINAPP ((CDjvuApp*)AfxGetApp())
 #define STOP_PROCESS (WM_USER+1)
 #include "searchrsltdlg.h"
+
+UINT Function1(LPVOID pParam);
+
 /////////////////////////////////////////////////////////////////////////////
 // CDjvuApp:
 // See djvu.cpp for the implementation of this class
